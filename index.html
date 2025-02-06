@@ -3,47 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
+    <title>Advanced To-Do List</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="#" onclick="showPage('home')">Home</a>
-        <a href="#" onclick="showPage('goals')">Goals</a>
-        <a href="#" onclick="showPage('tasks')">Tasks</a>
+        <div class="logo">📝 To-Do List</div>
+        <div class="nav-links">
+            <a href="#" onclick="showPage('home')">Home</a>
+            <a href="#" onclick="showPage('goals')">Goals</a>
+            <a href="#" onclick="showPage('tasks')">Tasks</a>
+        </div>
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
     </nav>
 
     <!-- Home Page -->
     <section id="home" class="page">
         <h1>Welcome to Your To-Do List App</h1>
-        <p>Manage your tasks and goals efficiently.</p>
+        <p>Manage your tasks and goals efficiently with a modern and user-friendly interface.</p>
+        <div class="home-features">
+            <div class="feature-card">
+                <i class="fas fa-tasks"></i>
+                <h3>Task Management</h3>
+                <p>Add, edit, and track your tasks easily.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bullseye"></i>
+                <h3>Goal Setting</h3>
+                <p>Set personal goals and monitor progress.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Deadlines & Priorities</h3>
+                <p>Stay on track with smart deadline reminders.</p>
+            </div>
+        </div>
     </section>
 
     <!-- Goals Page -->
     <section id="goals" class="page hidden">
-        <h1>Goals</h1>
+        <h1>Your Goals</h1>
         <div class="input-section">
             <input type="text" id="goalInput" placeholder="Enter your goal...">
-            <button onclick="addGoal()">Add Goal</button>
+            <button onclick="addGoal()"><i class="fas fa-plus"></i> Add Goal</button>
         </div>
         <div id="goalList" class="list-container"></div>
     </section>
 
     <!-- Tasks Page -->
     <section id="tasks" class="page hidden">
-        <h1>Tasks</h1>
+        <h1>Your Tasks</h1>
         <div class="input-section">
             <input type="text" id="taskInput" placeholder="Enter your task...">
             <input type="date" id="deadlineInput">
-            <button onclick="addTask()">Add Task</button>
+            <select id="priorityInput">
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+            </select>
+            <button onclick="addTask()"><i class="fas fa-plus"></i> Add Task</button>
         </div>
 
         <div class="sort-filter">
             <select id="sortTasks" onchange="sortTasks()">
                 <option value="name">Sort by Name</option>
                 <option value="deadline">Sort by Deadline</option>
+                <option value="priority">Sort by Priority</option>
             </select>
             <select id="filterTasks" onchange="filterTasks()">
                 <option value="all">All</option>
@@ -58,3 +88,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
