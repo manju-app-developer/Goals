@@ -229,4 +229,44 @@ button:hover {
         max-width: 100%;
     }
 }
+/* Dark Mode */
+.dark-mode {
+    background: #121212;
+    color: white;
+}
+
+.dark-mode .page {
+    background: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .navbar {
+    background: #333;
+}
+
+.dark-mode .item {
+    background: #2c2c2c;
+    color: white;
+}
+
+/* Priority Colors */
+.item span b {
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.item span b:contains("High") {
+    background: red;
+    color: white;
+}
+
+.item span b:contains("Medium") {
+    background: orange;
+    color: white;
+}
+
+.item span b:contains("Low") {
+    background: green;
+    color: white;
+}
 
