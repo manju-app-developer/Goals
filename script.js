@@ -18,33 +18,50 @@ function addTask() {
         return;
     }
 
-    let taskList = document.getElementById("taskList");
-    let taskItem = document.createElement("div");
-    taskItem.classList.add("item");
+    let task = { text: taskText, deadline: deadline, completed: false };
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 
-    taskItem.innerHTML = `
-        <span>${taskText} - ${deadline ? "Deadline: " + deadline : ""}</span>
-        <button onclick="completeTask(this)">✔</button>
-        <button onclick="deleteTask(this)">✖</button>
-    `;
-
-    taskList.appendChild(taskItem);
-    saveData();
+    renderTasks();
     taskInput.value = "";
     deadlineInput.value = "";
 }
 
-// Complete Task
-function completeTask(button) {
-    let taskItem = button.parentElement;
-    taskItem.classList.toggle("completed");
-    saveData();
+// Render Tasks
+function renderTasks() {
+    let taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    tasks.forEach((task, index) => {
+        let taskItem = document.createElement("div");
+        taskItem.classList.add("item");
+        if (task.completed) taskItem.classList.add("completed");
+
+        taskItem.innerHTML = `
+            <span>${task.text} ${task.deadline ? "- Deadline: " + task.deadline : ""}</span>
+            <button onclick="toggleComplete(${index})">✔</button>
+            <button onclick="deleteTask(${index})">✖</button>
+        `;
+        taskList.appendChild(taskItem);
+    });
+}
+
+// Toggle Task Completion
+function toggleComplete(index) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks[index].completed = !tasks[index].completed;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
 }
 
 // Delete Task
-function deleteTask(button) {
-    button.parentElement.remove();
-    saveData();
+function deleteTask(index) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
 }
 
 // Add Goal
@@ -57,36 +74,42 @@ function addGoal() {
         return;
     }
 
-    let goalList = document.getElementById("goalList");
-    let goalItem = document.createElement("div");
-    goalItem.classList.add("item");
+    let goals = JSON.parse(localStorage.getItem("goals")) || [];
+    goals.push(goalText);
+    localStorage.setItem("goals", JSON.stringify(goals));
 
-    goalItem.innerHTML = `
-        <span>${goalText}</span>
-        <button onclick="deleteGoal(this)">✖</button>
-    `;
-
-    goalList.appendChild(goalItem);
-    saveData();
+    renderGoals();
     goalInput.value = "";
 }
 
-// Delete Goal
-function deleteGoal(button) {
-    button.parentElement.remove();
-    saveData();
+// Render Goals
+function renderGoals() {
+    let goalList = document.getElementById("goalList");
+    goalList.innerHTML = "";
+    let goals = JSON.parse(localStorage.getItem("goals")) || [];
+
+    goals.forEach((goal, index) => {
+        let goalItem = document.createElement("div");
+        goalItem.classList.add("item");
+        goalItem.innerHTML = `
+            <span>${goal}</span>
+            <button onclick="deleteGoal(${index})">✖</button>
+        `;
+        goalList.appendChild(goalItem);
+    });
 }
 
-// Save Data to Local Storage
-function saveData() {
-    let tasks = document.getElementById("taskList").innerHTML;
-    let goals = document.getElementById("goalList").innerHTML;
-    localStorage.setItem("tasks", tasks);
-    localStorage.setItem("goals", goals);
+// Delete Goal
+function deleteGoal(index) {
+    let goals = JSON.parse(localStorage.getItem("goals")) || [];
+    goals.splice(index, 1);
+    localStorage.setItem("goals", JSON.stringify(goals));
+    renderGoals();
 }
 
 // Load Data from Local Storage
 function loadData() {
-    document.getElementById("taskList").innerHTML = localStorage.getItem("tasks") || "";
-    document.getElementById("goalList").innerHTML = localStorage.getItem("goals") || "";
+    renderTasks();
+    renderGoals();
 }
+
